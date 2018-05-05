@@ -19,9 +19,17 @@ define( function( require ) {
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  // strings
-  var flipPolarityString = require( 'string!EXAMPLE_SIM/flipPolarity' );
+  // added modules
+  var Vector2 = require( 'DOT/Vector2' );
 
+  //indexes the current dummy magnet the "add bar magnet" button is on
+  var index = 0;
+
+  // strings
+
+  var flipPolarityString = require( 'string!EXAMPLE_SIM/flipPolarity' );
+  var moveBarMagnetString = require( 'string!EXAMPLE_SIM/moveBarMagnet' );
+  var addBarMagnetString = require( 'string!EXAMPLE_SIM/addBarMagnet' );
   /**
    * @param {ExampleModel} model - the model for the entire screen
    * @param {Object} [options] - scenery options for rendering the control panel, see the constructor for options
@@ -48,9 +56,37 @@ define( function( require ) {
       }
     } );
 
+    // 'Move Bar Magnet' button
+    var moveBarMagnetButton = new TextPushButton( moveBarMagnetString, {
+      font: new PhetFont( 16 ),
+      baseColor: 'yellow',
+      xMargin: 10,
+      listener: function() {
+        model.barMagnet.locationProperty.set( new Vector2( Math.random() * 768 - 384, Math.random() * 504 - 252 ) ) ;
+      }
+    } );
+
+    index = 0;
+    // 'Add Bar Magnet' button
+    var addBarMagnetButton = new TextPushButton( addBarMagnetString, {
+      font: new PhetFont( 16 ),
+      baseColor: 'yellow',
+      xMargin: 10,
+      listener: function() {
+
+        if( index < 100 ){
+          var magnetBar = model.magnetArray[index];
+          magnetBar.locationProperty.set( new Vector2( Math.random() * 768 - 384, Math.random() * 504 - 252 ) ) ;
+          index++;
+        }
+
+      }
+    } );
+
     // 'Reset All' button, resets the sim to its initial state
     var resetAllButton = new ResetAllButton( {
       listener: function() {
+        index = 0;
         model.reset();
       }
     } );
@@ -61,6 +97,8 @@ define( function( require ) {
       spacing: 10,
       children: [
         flipButton,
+        moveBarMagnetButton,
+        addBarMagnetButton,
         resetAllButton
       ]
     } );

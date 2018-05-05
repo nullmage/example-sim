@@ -26,6 +26,7 @@ define( function( require ) {
    * @param {ExampleModel} model - the model for the entire screen
    * @constructor
    */
+
   function ExampleScreenView( model ) {
 
     ScreenView.call( this, {
@@ -36,11 +37,21 @@ define( function( require ) {
     var center = new Vector2( this.layoutBounds.width / 2, this.layoutBounds.height / 2 );
     var modelViewTransform = ModelViewTransform2.createOffsetScaleMapping( center, 1 );
 
+    
     this.addChild( new BarMagnetNode( model.barMagnet, modelViewTransform ) );
+
+    //adds dummy magnet bars
+    for(var k = 0; k < 100; k++){
+      this.addChild( new BarMagnetNode( model.magnetArray[k], modelViewTransform ) );
+    }
+    
     this.addChild( new ControlPanel( model, {
       x: 50,
       y: 50
     } ) );
+    
+    
+    
   }
 
   exampleSim.register( 'ExampleScreenView', ExampleScreenView );

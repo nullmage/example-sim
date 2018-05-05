@@ -25,6 +25,12 @@ define( function( require ) {
 
     // @public {BarMagnet} initial bar magnet model element
     this.barMagnet = new BarMagnet( new Dimension2( 262.5, 52.5 ), new Vector2( 0, 0 ), 0 );
+
+    // creates 100 dummy magnet bars
+    this.magnetArray = [];
+    for (var k = 0; k < 100; k++){
+      this.magnetArray[k] = new BarMagnet( new Dimension2( 262.5, 52.5 ), new Vector2( 5000, 5000 ), 0 );
+    }
   }
 
   exampleSim.register( 'ExampleModel', ExampleModel );
@@ -38,6 +44,9 @@ define( function( require ) {
     */
     reset: function() {
       this.barMagnet.reset();
+      for (var k = 0; k < 100; k++){
+        this.magnetArray[k].reset();
+      }
     }
   } );
 } );
